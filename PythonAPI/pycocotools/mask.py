@@ -75,6 +75,7 @@ import pycocotools._mask as _mask
 
 iou         = _mask.iou
 merge       = _mask.merge
+invert      = _mask.invert
 frPyObjects = _mask.frPyObjects
 
 def encode(bimask):

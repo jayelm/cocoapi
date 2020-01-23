@@ -29,6 +29,9 @@ void rleDecode( const RLE *R, byte *mask, siz n );
 /* Compute union or intersection of encoded masks. */
 void rleMerge( const RLE *R, RLE *M, siz n, int intersect );
 
+/* Compute union or intersection of encoded masks. */
+void rleNot( const RLE *R, RLE *NotR );
+
 /* Compute area of encoded masks. */
 void rleArea( const RLE *R, siz n, uint *a );
 

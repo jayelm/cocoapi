@@ -69,6 +69,28 @@ void rleMerge( const RLE *R, RLE *M, siz n, int intersect ) {
   rleInit(M,h,w,m,cnts); free(cnts);
 }
 
+void rleNot( const RLE *R, RLE *NotR ) {
+  uint *cnts;
+  siz a, h=R[0].h, w=R[0].w, m=R[0].m;
+  siz new_m;
+  cnts = malloc(sizeof(uint)*(h*w+1));
+  if (R[0].cnts[0] == 0) {
+      // 0 in front; remove 0
+      new_m = m - 1;
+      for( a=1; a<m; a++ ) {
+          cnts[a - 1] = R[0].cnts[a];
+      }
+  } else {
+      // 0 not in front; prepend 0
+      new_m = m + 1;
+      cnts[0] = 0;
+      for( a=0; a<m; a++ ) {
+          cnts[a + 1] = R[0].cnts[a];
+      }
+  }
+  rleInit(NotR,h,w,new_m,cnts); free(cnts);
+}
+
 void rleArea( const RLE *R, siz n, uint *a ) {
   siz i, j; for( i=0; i<n; i++ ) {
     a[i]=0; for( j=1; j<R[i].m; j+=2 ) a[i]+=R[i].cnts[j]; }

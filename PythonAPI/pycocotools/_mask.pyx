@@ -42,6 +42,7 @@ cdef extern from "maskApi.h":
     void rleEncode( RLE *R, const byte *M, siz h, siz w, siz n )
     void rleDecode( const RLE *R, byte *mask, siz n )
     void rleMerge( const RLE *R, RLE *M, siz n, int intersect )
+    void rleNot( const RLE *R, RLE *NotR )
     void rleArea( const RLE *R, siz n, uint *a )
     void rleIou( RLE *dt, RLE *gt, siz m, siz n, byte *iscrowd, double *o )
     void bbIou( BB dt, BB gt, siz m, siz n, byte *iscrowd, double *o )
@@ -154,6 +155,13 @@ def merge(rleObjs, intersect=0):
     cdef RLEs R = RLEs(1)
     rleMerge(<RLE*>Rs._R, <RLE*> R._R, <siz> Rs._n, intersect)
     obj = _toString(R)[0]
+    return obj
+
+def invert(rle):
+    cdef RLEs Rs = _frString([rle])
+    cdef RLEs NotR = RLEs(1)
+    rleNot(<RLE*>Rs._R, <RLE*> NotR._R)
+    obj = _toString(NotR)[0]
     return obj
 
 def area(rleObjs):
